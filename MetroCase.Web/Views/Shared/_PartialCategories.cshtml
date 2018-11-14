@@ -1,0 +1,23 @@
+﻿@*@using MyEverNote.WebApp.Models*@
+@using MetroCase.Entities
+@using MetroCase.BusinessLayer
+
+
+@{
+    Manager<Kategoriler> m = new Manager<Kategoriler>();
+    var categories = m.GetAll();
+}
+
+
+<h3>Categories</h3>
+<div class="list-group">
+    <a href="/Home/Home" class="list-group-item"><span class="glyphicon glyphicon-arrow-right"></span>Tümü</a>
+
+    @foreach (Kategoriler c in categories)
+    {
+        <a href="@Url.Action("Home","Home",new { id=c.KategoriId })" class="list-group-item" title="@c.KategoriAciklama">
+            <span class="glyphicon glyphicon-arrow-right"></span>@c.KategoriAdi
+        </a>
+    }
+
+</div>

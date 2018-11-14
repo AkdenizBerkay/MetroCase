@@ -1,0 +1,92 @@
+﻿@using MetroCase.Entities
+@*@using MetroCase.WebApp.Models*@
+
+@model List<Urunler>
+
+
+
+<div class="row">
+
+    @{
+        foreach (Urunler n in Model)
+        {
+            if (Model.Count == 2)
+            {
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    <div class="card h-100">
+                        <a href="@Url.Action("UrunDetay","Product",new { id=n.UrunId})"><img class="card-img-top" src="~/Images/@n.UrunFoto" alt="@n.Kategoriler.KategoriAdi"></a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">@n.UrunAdi</a>
+                            </h4>
+                            <h5>$@n.UrunFiyat</h5>
+                            <p class="card-text">@n.UrunAciklama</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">@n.UrunStokAdedi adet mevcut</small>
+                            <small class="text-right"><a href="@Url.Action("SepeteEkle","Product",new { id=n.UrunId})"><span class="glyphicon glyphicon-shopping-cart">Sepete Ekle</span></a></small>
+                        </div>
+                    </div>
+                </div>
+            }
+            if (Model.Count == 1)
+            {
+                <div class="col-sm-12 col-lg-12 col-md-12">
+                    <div class="card h-100">
+                        <a href="@Url.Action("UrunDetay","Product",new { id=n.UrunId})"><img class="card-img-top" src="~/Images/@n.UrunFoto" alt="@n.Kategoriler.KategoriAdi"></a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">@n.UrunAdi</a>
+                            </h4>
+                            <h5>$@n.UrunFiyat</h5>
+                            <p class="card-text">@n.UrunAciklama</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">@n.UrunStokAdedi adet mevcut</small>
+                            <small class="text-right"><a href="@Url.Action("SepeteEkle","Product",new { id=n.UrunId})"><span class="glyphicon glyphicon-shopping-cart">Sepete Ekle</span></a></small>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="card h-100">
+                        <a href="@Url.Action("UrunDetay","Product",new { id=n.UrunId})"><img class="card-img-top" src="~/Images/@n.UrunFoto" alt="@n.Kategoriler.KategoriAdi"></a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">@n.UrunAdi</a>
+                            </h4>
+                            <h5>$@n.UrunFiyat</h5>
+                            <p class="card-text">@n.UrunAciklama</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">@n.UrunStokAdedi adet mevcut</small>
+                            <small class="text-right"><a href="@Url.Action("SepeteEkle","Product",new { id=n.UrunId})"><span class="glyphicon glyphicon-shopping-cart">Sepete Ekle</span></a></small>
+                        </div>
+                    </div>
+                </div>}
+        }
+
+    }
+</div>
+
+@*@MyHelper.ModalPopup("commentmodal", "Yorumlar", true)
+@MyHelper.ModalPopup("notelikemodal", "WhoLikes", true)
+<script>
+    $(function () {
+
+        $("#notelikemodal").on('show.bs.modal', function (e) {
+            var btn = $(e.relatedTarget);
+            var noteid = btn.attr("data-noteid");
+            $("#notelikemodal_body").load("/Notes/NoteLikedUsers/" + noteid);
+        });
+
+        $("#commentmodal").on('show.bs.modal', function (e) {
+            var btn = $(e.relatedTarget);
+            var noteid = btn.attr("data-comid");
+            $("#commentmodal_body").load("/Comments/ShowModalComment/" + noteid);
+        });
+
+    });
+</script>*@

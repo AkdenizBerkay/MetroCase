@@ -1,0 +1,74 @@
+﻿@using GridMvc.Html
+@model List<MetroCase.Entities.Urunler>
+@{
+    ViewBag.Title = "SepetIslemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<link href="~/Content/gridmvc.datepicker.min.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/gridmvc.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/gridmvc.lang.tr.js"></script>
+
+<script>
+    @ViewBag.calljavascriptfunction
+
+    function Popup() {
+        BootstrapDialog.show({
+            title: "Congratulations",
+            message: 'Sepet işleminiz başarıyla gerçekleştirilmiştir.',
+            buttons: [{
+                label: 'Ok',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+
+        });
+    }
+        function DeleteComment(cid) {
+        BootstrapDialog.show({
+
+            title: "Delete Your Order",
+            message: 'Are you sure?',
+        buttons: [{
+                label: 'Delete',
+            cssClass: 'btn-danger',
+            action: function (dialog) {
+                var url = '@Url.Action("SepetDelete", "Product", new { id = "__id__"})';
+                window.location.href = url.replace('__id__', cid);
+                    dialog.close();
+                }
+        }]
+    });
+    }
+</script>
+<div class="container">
+    <h3>Sepet İşlemleri</h3>
+    <hr />
+    
+    <div class="row">
+        @if (Model != null)
+        {
+            @Html.Grid(Model).Named("UrunlerGrid").Columns(col =>
+       {
+           col.Add(k => k.UrunFoto).Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+           {
+               string foto = "<img src='/Images/" + html.UrunFoto + "' class='img-circle' width='50' height='50'/>";
+               return MvcHtmlString.Create(foto);
+           });
+           col.Add(k => k.UrunAdi).Titled("Urun").Filterable(true);
+           col.Add(k => k.UrunAciklama).Titled("İçerik").RenderValueAs(k => k.UrunAciklama.Length > 100 ? k.UrunAciklama.Substring(0, 100) : k.UrunAciklama);
+           col.Add(k => k.Kategoriler.KategoriAdi).Titled("Kategori").Filterable(true);
+           col.Add(k => k.UrunFiyat).Filterable(true);
+
+           col.Add().Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+           {
+               string btndel = "<button type='button' class='btn btn-xs btn-danger' onclick='DeleteComment(" + html.UrunId + ")' style='border:0px solid; height:50%'><span class='glyphicon glyphicon-remove'>Sil</span></button>";
+               return MvcHtmlString.Create(btndel);
+           });
+       }).Sortable(true).WithPaging(5).SetLanguage("tr")}
+    </div>
+</div>

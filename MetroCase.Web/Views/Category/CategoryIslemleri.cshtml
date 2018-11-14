@@ -1,0 +1,127 @@
+﻿@using GridMvc.Html
+@model List<MetroCase.Entities.Kategoriler>
+@{
+    ViewBag.Title = "CategoryIslemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<link href="~/Content/gridmvc.datepicker.min.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/gridmvc.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/gridmvc.lang.tr.js"></script>
+<script src="~/Scripts/gridmvc.customwidgets.js"></script>
+<script>
+    @ViewBag.calljavascriptfunction
+
+    function Popup() {
+        BootstrapDialog.show({
+            title: "Congratulations",
+            message: 'Kategori işleminiz başarıyla gerçekleştirilmiştir.',
+            buttons: [{
+                label: 'Ok',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+
+        });
+    }
+
+        function AddComment() {
+        BootstrapDialog.show({
+
+            title: "Add New Category",
+            message: '<div class="row"><div class=col-md-3><span>Kategori: </span></div><div class=col-md-9><textarea class="form-control" rows="1"></textarea></div></div><div class="row"><div class=col-md-3><span>Kategori Açıklama: </span></div><div class=col-md-9><textarea class="form-control" id="comment" name="comment" rows="5"></textarea></div></div>',
+        buttons: [{
+                label: 'Save',
+            cssClass: 'btn-primary',
+            action: function (dialog) {
+                var newcomment = dialog.getModalBody().find('textarea').val();
+                var newcomment2 = dialog.getModalBody().find('#comment').val();
+                var url = '@Url.Action("CategoryAdd", "Category", new { txt= "__txt__", ack = "__ack__" })';
+                url = url.replace('__txt__', newcomment);
+                url = url.replace('&amp;', '&');
+                url = url.replace('__ack__', newcomment2);
+                window.location.href = url;
+                    dialog.close();
+                }
+        }]
+    });
+    }
+
+    function EditComment(cid, txt, ack) {
+        BootstrapDialog.show({
+
+            title: "Edit Category",
+            message: '<div class="row"><div class=col-md-3><span>Kategori: </span></div><div class=col-md-9><textarea class="form-control" rows="1">' + txt + '</textarea></div></div><div class="row"><div class=col-md-3><span>Kategori Açıklama: </span></div><div class=col-md-9><textarea class="form-control" id="comment" name="comment" rows="5">' + ack + '</textarea></div></div>',
+        buttons: [{
+                label: 'Save',
+            cssClass: 'btn-primary',
+            action: function (dialog) {
+                var newcomment = dialog.getModalBody().find('textarea').val();
+                var newcomment2 = dialog.getModalBody().find('#comment').val();
+                var url = '@Url.Action("CategoryEdit", "Category", new { id = "__id__",txt= "__txt__", ack = "__ack__" })';
+                url = url.replace('__id__', cid);
+                url = url.replace('__txt__', newcomment);
+                url = url.replace('&amp;', '&');
+                url = url.replace('__ack__', newcomment2);
+                window.location.href = url;
+                    dialog.close();
+                }
+        }]
+    });
+    }
+
+    function DeleteComment(cid,txt) {
+        BootstrapDialog.show({
+
+            title: "Delete Category",
+            message: '<textarea class="form-control" id="comment" name="comment" rows="10" disabled>' + txt + ' kategorisini silmek istediğinizden emin misiniz?</textarea>',
+        buttons: [{
+                label: 'Delete',
+            cssClass: 'btn-danger',
+            action: function (dialog) {
+                var url = '@Url.Action("CategoryDelete", "Category", new { id = "__id__"})';
+                window.location.href = url.replace('__id__', cid);
+                    dialog.close();
+                }
+        }]
+    });
+    }
+
+</script>
+<div class="container">
+    <h3>Kategori İşlemleri</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-xs btn-primary" onclick="AddComment()" style="border: 0px solid;">
+                <span class="glyphicon glyphicon-plus-sign">Add Category</span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null)
+        {
+            @Html.Grid(Model).Named("CategoryGrid").Columns(col =>
+       {
+
+           col.Add(k => k.KategoriAdi).Titled("Kategori").Filterable(true);
+           col.Add(k => k.KategoriAciklama).Titled("İçerik").RenderValueAs(k => k.KategoriAciklama.Length > 100 ? k.KategoriAciklama.Substring(0, 100) : k.KategoriAciklama);
+           col.Add().Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+           {
+               string btnedit = "<button type='button' class='btn btn-xs btn-success' onclick='EditComment("+html.KategoriId+ ","+'"' + html.KategoriAdi +'"'+ "," +'"'+ html.KategoriAciklama + '"'+")' style='border:0px solid; height:50%'><span class='glyphicon glyphicon-edit'>Düzenle</span></button>";
+               return MvcHtmlString.Create(btnedit);
+           });
+           col.Add().Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+           {
+               string btndel = "<button type='button' class='btn btn-xs btn-danger' onclick='DeleteComment(" + html.KategoriId + "," + '"' + html.KategoriAciklama + '"' + ")' style='border:0px solid; height:50%'><span class='glyphicon glyphicon-remove'>Sil</span></button>";
+               return MvcHtmlString.Create(btndel);
+           });
+       }).Sortable(true).WithPaging(5).SetLanguage("tr")}
+    </div>
+</div>

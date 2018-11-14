@@ -1,0 +1,74 @@
+﻿@using GridMvc.Html
+@model List<MetroCase.Entities.Urunler>
+@{
+    ViewBag.Title = "UrunIslemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<link href="~/Content/gridmvc.datepicker.min.css" rel="stylesheet" />
+@*<style>
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(3.25rem + 2px);
+    }
+</style>*@
+
+<script src="~/Scripts/gridmvc.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/gridmvc.lang.tr.js"></script>
+<script src="~/Scripts/gridmvc.customwidgets.js"></script>
+<script>
+    @ViewBag.calljavascriptfunction
+
+    function Popup() {
+        BootstrapDialog.show({
+            title: "Congratulations",
+            message: 'Ürün işleminiz başarıyla gerçekleştirilmiştir.',
+            buttons: [{
+                label: 'Ok',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+
+        });
+    }
+    </script>
+<div class="container">
+    <h3>Ürün İşlemleri</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-9">
+        </div>
+        <div class="col-md-2">
+            <a href="~/Admin/AddorEdit" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span>Add Product</a>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null)
+        {
+            @Html.Grid(Model).Named("UrunlerGrid").Columns(col =>
+       {
+           col.Add(k => k.UrunFoto).Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+           {
+               string foto = "<img src='/Images/" + html.UrunFoto + "' class='img-circle' width='50' height='50'/>";
+               return MvcHtmlString.Create(foto);
+           });
+           col.Add(k => k.UrunAdi).Titled("Urun").Filterable(true);
+           col.Add(k => k.UrunAciklama).Titled("İçerik").RenderValueAs(k => k.UrunAciklama.Length > 100 ? k.UrunAciklama.Substring(0, 100) : k.UrunAciklama);
+           col.Add(k => k.Kategoriler.KategoriAdi).Titled("Kategori").Filterable(true).SetFilterWidgetType("CustomCompanyNameFilterWidget");
+           col.Add(k => k.UrunFiyat).Filterable(true);
+           col.Add(k => k.UrunStokAdedi).Filterable(true);
+           col.Add(k => k.UrunId).Titled("").Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+                 Html.ActionLink("Düzenle", "AddorEdit", "Admin", new { html.UrunId, adminpanel = true }, new { id = "Duzenle" + html.UrunId, @class = "glyphicon glyphicon-edit btn btn-success" })).SetWidth(30);
+           col.Add().Titled("").Sortable(false).Filterable(false).Encoded(false).Sanitized(false).RenderValueAs(html =>
+             Html.ActionLink("Sil", "Delete", "Admin", new { html.UrunId, adminpanel = true }, new { id = "Sil" + html.UrunId, @class = "glyphicon glyphicon-remove btn btn-danger" })).SetWidth(30);
+
+       }).Sortable(true).WithPaging(5).SetLanguage("tr")}
+    </div>
+</div>
+
+<script>
+    $(function () {
+        pageGrids.UrunlerGrid.addFilterWidget(new CustomersFilterWidget());
+    })
+</script>

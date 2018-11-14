@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+@using MetroCase.Web.Models
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link href="~/Content/shop-homepage.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .navbar {
+            position: absolute;
+        }
+
+        .bootstrap-dialog-close-button {
+            margin-left: 350px;
+        }
+    </style>
+
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+
+
+</head>
+<body>
+    @{
+        MetroCase.Entities.Kullanicilar user = null;
+
+        user = CurrentSession.User;
+
+    }
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Metro Case</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="col-md-10">
+                    <ul class="navbar-nav navbar-left">
+                        @if (user != null)
+                        {
+                            if (user.IsAdmin == true)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <span class=" glyphicon glyphicon-wrench"></span>
+                                        Yönetim
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="@Url.Action("UrunIslemleri","Admin")"><span class="glyphicon glyphicon-barcode"></span>Products</a></li>
+                                        <li><a href="@Url.Action("CategoryIslemleri","Category")"><span class="glyphicon glyphicon-bookmark"></span>Categories</a></li>
+                                        <li><a href="@Url.Action("UserIslemleri","Admin")"><span class="glyphicon glyphicon-user"></span>Users</a></li>
+                                    </ul>
+                                </li>
+
+                            }
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Home", "Home")">
+                                <span class=" glyphicon glyphicon-home"></span>
+                                Anasayfa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("SepetIslemleri", "Product")">
+                                <span class=" glyphicon glyphicon-shopping-cart"></span>
+                            Sepetim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <ul class="navbar-nav navbar-right">
+                        @{
+                            if (user == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Home/Login">
+                                        <span class="glyphicon glyphicon-log-in"></span>
+                                        Giriş
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Home/Register">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        Üye Ol
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    @{
+                                        //int id = (int)Session["loginuser"];
+                                        <a class="nav-link" href="/Home/UserProfile">
+                                            <span class="glyphicon glyphicon-user"></span>
+
+                                            @user.Username
+
+                                        </a>
+                                    }
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Home/LogOut">
+                                        <span class="glyphicon glyphicon-log-out"></span>
+                                        Çıkış
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        <br />
+        @RenderBody()
+        <hr />
+    </div>
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+</body>
+</html>

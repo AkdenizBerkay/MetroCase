@@ -1,0 +1,111 @@
+﻿@model MetroCase.Entities.Urunler
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+                BootstrapDialog.show({
+            title: "Are You Sure?",
+        message: 'Ürün Kaydınız Silinecektir.',
+        buttons: [{
+                label: 'Ok',
+            cssClass: 'btn-primary',
+            action: function(dialog) {
+                    var url = '@Url.Action("DeletePost", "Admin", new { id = "__id__" })';
+                    window.location.href = url.replace('__id__',@ViewBag.id);
+                    dialog.close();
+                }
+        }]
+
+    });
+
+
+</script>
+
+@using (Html.BeginForm("Delete", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="form-horizontal">
+            <h2>Delete Note</h2>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*@Html.HiddenFor(model => model.Id)*@
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    @if (Model.UrunFoto != null)
+                    {
+                        <img src="~/Images/@Model.UrunFoto" alt="@Model.UrunAdi" width="150" height="150">
+                    }
+                    else
+                    {
+                        <img src="~/Images/default.png" width="150" height="150">
+                    }
+                    <input type="file" name="Image" style="margin-top:15px" />
+
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.UrunAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UrunAdi, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UrunAdi, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Kategoriler, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(k => k.KategoriId, new SelectList(ViewBag.Kategoriler, "Value", "Text"), "Lütfen Seçiniz.", new { @class = "dropdown form-control", style = "height:100%" })
+                            @Html.ValidationMessageFor(model => model.KategoriId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.UrunFiyat, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UrunFiyat, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UrunFiyat, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.UrunStokAdedi, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UrunStokAdedi, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UrunStokAdedi, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.UrunAciklama, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.UrunAciklama, 10, 92, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UrunAciklama, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.ActionLink("Back to Ürün İşlemleri", "UrunIslemleri", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $('div :input').attr('disabled', true);
+        $('.btn').attr('disabled', false);
+    });
+</script>
+

@@ -1,0 +1,125 @@
+﻿@using MetroCase.Entities
+@using MetroCase.Web.Models
+
+@model Kullanicilar
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    @ViewBag.calljavascriptfunction
+
+    function Popup() {
+        BootstrapDialog.show({
+            title: "Updated",
+            message: 'Profil bilgileriniz güncellenmiştir.',
+            buttons: [{
+                label: 'Ok',
+                action: function (dialog) {
+                    dialog.close();
+                }
+            }]
+
+        });
+    }
+</script>
+<div class="container">
+    @using (Html.BeginForm("UserProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(k => k.UserId);
+
+        <h2>@Model.Ad @Model.Soyad</h2>
+
+        <hr />
+        <div class="row" id="noedit">
+            <div class="col-md-2">
+                <img src="~/Images/@Model.ProfileImage" class="img-circle" alt="@Model.Username" width="150" height="150">
+            </div>
+            <div class="col-md-8">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <strong>UserName:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <strong>Name:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Ad, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Ad, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <strong>Surname:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Soyad, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Soyad, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <strong>Address:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Adres, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Adres, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <strong>Password:</strong>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:5px">
+            <input type="file" class="btn btn-sm btn-success" name="profileImage" />
+        </div>
+        <div class="row" id="noedit" style="margin-top:5px">
+            <input class="btn btn-md btn-primary" name="btnKaydet" type="Submit" value="Kaydet">
+        </div>
+
+
+        <hr />
+    }
+
+    <div class="form-group">
+        <div class="row">
+            @{ 
+                var a = CurrentSession.Get<List<Urunler>>("Urunlerim");
+                var w = 12;
+            }
+            @*@Html.Partial("_PartialOrders", Model.Satislar.ToList())*@
+
+        </div>
+    </div>
+</div>
+

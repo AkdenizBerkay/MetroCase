@@ -1,0 +1,38 @@
+﻿@using MetroCase.Entities
+@using MetroCase.Web.Models
+@model MetroCase.Entities.Urunler
+@{
+    ViewBag.Title = "UrunDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    MetroCase.Entities.Kullanicilar suser = CurrentSession.User;
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"></span>@Model.UrunAdi</h3>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <img class="card-img-top" src="~/Images/@Model.UrunFoto" alt="@Model.Kategoriler.KategoriAdi">
+            </div>
+            <div class="col-md-6">@Html.Raw(Model.UrunAciklama)</div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            @if (suser != null)
+            {
+                <small class="text-right">
+                    <a href="@Url.Action("SepeteEkle", "Product", new { id = Model.UrunId})" class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>Sepete Ekle
+                    </a>
+                </small>
+            }
+        </div>
+    </div>
+</div>
+
