@@ -9,7 +9,6 @@ http://localhost:49564/Home/UserActivate/xxxxxxx-xxxxx-xx-xxxxx-xxxxxxxxx
 
 Arayüz
 ·         Admin panelinden eklenen ürünlerin listelendiği sayfa  (+)
-
 ·         Ürün detay sayfası (+)                                              
 ·         Sepete ekleme   (+)
 ·         Sepet listesi   (+)
