@@ -1,0 +1,24 @@
+        private static string CreateCSV<T>(List<T> data)
+        {
+            using (var mem = new MemoryStream())
+            using (var writer = new StreamWriter(mem))
+            using (var csvWriter = new CsvWriter(writer))
+            {
+                csvWriter.Configuration.Delimiter = ",";
+                csvWriter.Configuration.HasHeaderRecord = true;
+                try
+                {
+                    csvWriter.Configuration.AutoMap(data[1].GetType());
+                }
+                catch
+                {
+                    
+                    
+                    csvWriter.Configuration.AutoMap(data[0].GetType());
+                }
+                csvWriter.WriteRecords(data);
+                writer.Flush();
+                var result = Encoding.UTF8.GetString(mem.ToArray());
+                return result;
+            }
+        }
