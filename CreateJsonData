@@ -1,0 +1,22 @@
+JsonData benim oluşturduğum bir class :
+   
+   public class JsonData
+    {
+        public string content { get; set; }
+        public string key { get; set; }
+    }
+
+JsonData data = new JsonData()
+                {
+                    content = "",
+                    key = ""
+                    
+                };
+                List<JsonData> x = new List<JsonData>();
+                x.Add(data);
+                var collectionWrapper = new
+                {
+                    tasks = x
+                };
+
+                json = JsonConvert.SerializeObject(collectionWrapper);
