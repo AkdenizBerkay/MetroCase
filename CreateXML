@@ -1,0 +1,48 @@
+            foreach (var dr in newSort)
+            {
+
+                XElement ListOfEntitlementItem = new XElement("ListOfEntitlementItem");
+
+                foreach (var str in dr.OTHERS)
+                {
+                    ListOfEntitlementItem.Add(
+                    new XElement("request"
+                                 , new XElement("variant", dr.VARYANT)
+                                 , new XElement("sellingBundleContent", dr.BUNDLE)
+                                 , new XElement("salesline", str[3])
+                                 , new XElement("storeNo", str[4])
+                                 , new XElement("validFrom", str[5])
+                                 , new XElement("validTo", str[6])
+                                 , new XElement("netSalesPricePerBundle", str[7])
+                                 , new XElement("endHierarchyValues")
+                                 , new XElement("copyVariants")
+                                 , new XElement("copyBundles")
+                                 ));
+                }
+
+                XDocument doc = new XDocument(
+                new XElement("IhdsTree"
+                , new XAttribute("scope", "35435435435435")
+                , new XAttribute("version", "1")
+                , new XElement("Transaction"
+                , new XAttribute("id", "54354354354365656534")
+                , new XAttribute("time", "2019-02-26T10:00:00.965+05:30")
+                , new XElement("Incident"
+                , new XAttribute("id", 1)
+                , new XElement("Domain"
+                , new XElement("correlationId", "3454356436564435345")
+                , new XElement("messageType", "changeRequest")
+                , new XElement("scopeDesc", "ChangeSalesPriceRequest")
+                , new XElement("requestingApplication", "PriceOptimizer")
+                , new XElement("requestingUser", "dgfdfgdf")
+                , new XElement("country", "TR")
+                , new XElement("company", "MCC")
+                , new XElement("mmsArtNo", dr.MMS_ART_NO)
+                )
+                , new XElement("content"
+                , ListOfEntitlementItem
+                )
+                )
+                )
+                )
+                );
