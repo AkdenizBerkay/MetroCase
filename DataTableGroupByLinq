@@ -1,14 +1,14 @@
             var newSort = (from row in dt.AsEnumerable()
                            group row by new
                            {
-                               MMS_ART_NO = row.Field<int>("MMS_ART_NO"),
-                               VARYANT = row.Field<Int16>("VARYANT"),
-                               BUNDLE = Convert.ToInt32(row.Field<object>("BUNDLE"))
+                               AD = row.Field<int>("AD"),
+                               SOYAD = row.Field<Int16>("SOYAD"),
+                               NO = Convert.ToInt32(row.Field<object>("NO"))
                            } into grp
                            select new
                            {
-                               MMS_ART_NO = grp.Key.MMS_ART_NO,
-                               VARYANT = grp.Key.VARYANT,
-                               BUNDLE = grp.Key.BUNDLE,
+                               AD = grp.Key.AD,
+                               SOYAD = grp.Key.SOYAD,
+                               NO = grp.Key.NO,
                                OTHERS = grp.ToList()
                            }).ToList();
