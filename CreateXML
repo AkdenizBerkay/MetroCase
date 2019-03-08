@@ -7,39 +7,39 @@
                 {
                     ListOfEntitlementItem.Add(
                     new XElement("request"
-                                 , new XElement("variant", dr.VARYANT)
-                                 , new XElement("sellingBundleContent", dr.BUNDLE)
-                                 , new XElement("salesline", str[3])
-                                 , new XElement("storeNo", str[4])
-                                 , new XElement("validFrom", str[5])
-                                 , new XElement("validTo", str[6])
-                                 , new XElement("netSalesPricePerBundle", str[7])
-                                 , new XElement("endHierarchyValues")
-                                 , new XElement("copyVariants")
-                                 , new XElement("copyBundles")
+                                 , new XElement("a", dr.VARYANT)
+                                 , new XElement("fdf", dr.BUNDLE)
+                                 , new XElement("dfd", str[3])
+                                 , new XElement("df", str[4])
+                                 , new XElement("df", str[5])
+                                 , new XElement("df", str[6])
+                                 , new XElement("df", str[7])
+                                 , new XElement("gfg")
+                                 , new XElement("fdg")
+                                 , new XElement("ghh")
                                  ));
                 }
 
                 XDocument doc = new XDocument(
-                new XElement("IhdsTree"
-                , new XAttribute("scope", "35435435435435")
-                , new XAttribute("version", "1")
-                , new XElement("Transaction"
+                new XElement("gfh"
+                , new XAttribute("gfh", "35435435435435")
+                , new XAttribute("fgh", "1")
+                , new XElement("gfh"
                 , new XAttribute("id", "54354354354365656534")
                 , new XAttribute("time", "2019-02-26T10:00:00.965+05:30")
-                , new XElement("Incident"
+                , new XElement("fgh"
                 , new XAttribute("id", 1)
-                , new XElement("Domain"
-                , new XElement("correlationId", "3454356436564435345")
-                , new XElement("messageType", "changeRequest")
-                , new XElement("scopeDesc", "ChangeSalesPriceRequest")
-                , new XElement("requestingApplication", "PriceOptimizer")
-                , new XElement("requestingUser", "dgfdfgdf")
-                , new XElement("country", "TR")
-                , new XElement("company", "MCC")
-                , new XElement("mmsArtNo", dr.MMS_ART_NO)
+                , new XElement("gfh"
+                , new XElement("fgh", "3454356436564435345")
+                , new XElement("fgh", "changeRequest")
+                , new XElement("rtey", "ChangeSalesPriceRequest")
+                , new XElement("dfg", "PriceOptimizer")
+                , new XElement("dfbv", "dgfdfgdf")
+                , new XElement("hgd", "TR")
+                , new XElement("dh", "MCC")
+                , new XElement("dfg", dr.MMS_ART_NO)
                 )
-                , new XElement("content"
+                , new XElement("sg"
                 , ListOfEntitlementItem
                 )
                 )
