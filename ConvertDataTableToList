@@ -1,0 +1,34 @@
+        public static List<object> BindList(DataTable dt, object obj)
+        {
+            var fields = obj.GetType().GetProperties().ToList();
+
+            List<object> lst = new List<object>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                var ob = Activator.CreateInstance(obj.GetType());
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    if (fields.Exists(k => k.Name.Equals(dc.ColumnName)))
+                    {
+                        object value = dr[dc.ColumnName];
+                        var x = value.ToString();
+
+                        if (!string.IsNullOrEmpty(x))
+                        {
+                            if (dc.DataType.Name != typeof(decimal).Name && dc.DataType.Name != typeof(string).Name)
+                            {
+                                value = Convert.ToDecimal(value);
+                            }
+
+                            fields.Where(k => k.Name.Equals(dc.ColumnName)).FirstOrDefault().SetValue(ob, value);
+                        }
+                    }
+                }
+
+                lst.Add(ob);
+            }
+
+            return lst;
+        }
